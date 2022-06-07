@@ -17,16 +17,16 @@ const DATABASE_URL = process.env.DATABASE_URL
 const CONFIG = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  }
+}
 
-  // Establish connection
-  mongoose.connect(DATABASE_URL, CONFIG)
+// Establish connection
+mongoose.connect(DATABASE_URL, CONFIG)
 
-  // Events for when connection opens/disconnects/errors
+// Events for when connection opens/disconnects/errors
 mongoose.connection
-.on("open", () => console.log("Connected to Mongoose"))
-.on("close", () => console.log("Disconnected from Mongoose"))
-.on("error", (error) => console.log(error))
+    .on("open", () => console.log("Connected to Mongoose"))
+    .on("close", () => console.log("Disconnected from Mongoose"))
+    .on("error", (error) => console.log(error))
 
 
 ////////////////////////////////////////////////
@@ -36,23 +36,23 @@ mongoose.connection
 // const Schema = mongoose.Schema
 // const model = mongoose.model
 // is equal to:
-const { Schema, model} = mongoose
+const { Schema, model } = mongoose
 
 // make fruits schema
 const fruitsSchema = new Schema({
     name: String,
     color: String,
     readyToEat: Boolean,
-  })
+})
 
-  // make fruit model
+// make fruit model
 const Fruit = model("Fruit", fruitsSchema)
 
 
- /////////////////////////////////////////////////
+/////////////////////////////////////////////////
 // Create our Express Application Object Bind Liquid Templating Engine
 /////////////////////////////////////////////////
-const app = require("liquid-express-views")(express(), {root: [path.resolve(__dirname, 'views/')]})
+const app = require("liquid-express-views")(express(), { root: [path.resolve(__dirname, 'views/')] })
 
 
 /////////////////////////////////////////////////////
@@ -63,16 +63,42 @@ app.use(methodOverride("_method")); // override for put and delete requests from
 app.use(express.urlencoded({ extended: true })); // parse urlencoded request bodies
 app.use(express.static("public")); // serve files from public statically
 
- 
+
 ////////////////////////////////////////////
 // Routes
 ////////////////////////////////////////////
 app.get("/", (req, res) => {
     res.send("your server is running... better catch it.")
+})
+
+app.get("/fruits/seed", (req, res) => {
+    // array of starter fruits
+    const startFruits = [
+        { name: "Orange", color: "orange", readyToEat: false },
+        { name: "Grape", color: "purple", readyToEat: false },
+        { name: "Banana", color: "orange", readyToEat: false },
+        { name: "Strawberry", color: "red", readyToEat: false },
+        { name: "Coconut", color: "brown", readyToEat: false },
+    ];
+
+    // Delete all fruits
+    Fruit.deleteMany({}).then((data) => {
+        // Seed Starter Fruits
+        Fruit.create(startFruits).then((data) => {
+            // send created fruits as response to confirm creation
+            res.json(data);
+        });
+    });
+});
+
+// Index Route
+app.get("/fruits", async (req, res) => {
+    const fruits = await Fruits.find({});
+    res.render("fruits/index.liquid", { fruits });
   })
   
 
-//////////////////////////////////////////////
+  //////////////////////////////////////////////
 // Server Listener
 //////////////////////////////////////////////
 const PORT = process.env.PORT
