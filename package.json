@@ -1,7 +1,7 @@
 {
   "name": "fruits-fullstack-crud",
   "version": "1.0.0",
-  "description": "",
+  "description": "Full Stack Fruits Build with Mongo and Express Part 1 - Setup, Index, Show, New, Create Setup create a new folder",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url":"git+https://github.com/jrbreeden/fruits-fullstack-crud.git"
+    "url": "git+https://github.com/jrbreeden/fruits-fullstack-crud.git"
   },
   "keywords": [],
   "author": "",
@@ -25,5 +25,9 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.16"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/jrbreeden/fruits-fullstack-crud/issues"
+  },
+  "homepage": "https://github.com/jrbreeden/fruits-fullstack-crud#readme"
 }
