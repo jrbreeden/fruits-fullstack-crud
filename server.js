@@ -64,6 +64,14 @@ app.use(express.urlencoded({ extended: true })); // parse urlencoded request bod
 app.use(express.static("public")); // serve files from public statically
 
  
+////////////////////////////////////////////
+// Routes
+////////////////////////////////////////////
+app.get("/", (req, res) => {
+    res.send("your server is running... better catch it.")
+  })
+  
+
 //////////////////////////////////////////////
 // Server Listener
 //////////////////////////////////////////////
